@@ -1,0 +1,50 @@
+.customNode {
+  padding: 10px;
+  background-color: #ffebcd; /* Light background (BlanchedAlmond) */
+  border: 2px solid #000000; /* Black border */
+  border-radius: 4px;
+  min-width: 200px;
+  max-width: 250px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  position: relative; /* Ensure Handles are positioned correctly */
+  display: flex;
+  align-items: center;
+}
+
+.nodeContent {
+  flex: 1;
+  color: #000000; /* Ensure all text is black */
+}
+
+.nodeContent h3 {
+  margin: 0 0 5px 0;
+  color: #000000; /* Black color for headings */
+}
+
+.nodeContent p {
+  margin: 0 0 10px 0;
+  color: #000000; /* Black color for paragraphs */
+}
+
+.checklist {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0 0;
+  color: #000000; /* Black color for checklist items */
+}
+
+.checklist li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  color: #000000; /* Black color for individual checklist items */
+}
+
+.checklist li.completed {
+  text-decoration: line-through;
+  color: #777777; /* Gray color for completed tasks */
+}
+
+.checklist input {
+  margin-right: 8px;
+}

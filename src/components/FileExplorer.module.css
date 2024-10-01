@@ -1,0 +1,118 @@
+.fileExplorer {
+  padding: 20px;
+}
+
+.title {
+  font-size: 24px;
+  color: var(--text-color);
+  margin-bottom: 10px;
+}
+
+.deleteButton {
+  margin-bottom: 10px;
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: #f04747; /* Danger color */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.deleteButton:hover {
+  background-color: #d84040;
+}
+
+.selectionControls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.deleteSelectedButton {
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: #f04747; /* Danger color */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.deleteSelectedButton:hover {
+  background-color: #d84040;
+}
+
+.cancelButton {
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: #7289da; /* Accent color */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cancelButton:hover {
+  background-color: #677bc4;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.checkbox {
+  margin-right: 10px;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.devlogButton {
+  flex: 1;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.devlogButton:hover {
+  background-color: #333;
+}
+
+/* Disabled button styles */
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.addProject {
+  display: flex;
+  margin-top: 10px;
+  gap: 5px;
+}
+
+.input {
+  flex: 1;
+  padding: 5px;
+  border: none;
+  border-radius: 4px;
+  background-color: #2f3136;
+  color: var(--text-color);
+}

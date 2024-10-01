@@ -1,0 +1,65 @@
+:root {
+  --background-color: #36393f;
+  --header-background: #2f3136;
+  --text-color: #ffffff;
+  --subtle-text-color: #b9bbbe;
+  --accent-color: #7289da;
+  --accent-color-hover: #677bc4;
+  --danger-color: #f04747;
+  --danger-color-hover: #d84040;
+}
+
+body {
+  margin: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.button {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: var(--accent-color-hover);
+}
+
+.danger-button {
+  background-color: var(--danger-color);
+}
+
+.danger-button:hover {
+  background-color: var(--danger-color-hover);
+}
+
+.header {
+  background-color: var(--header-background);
+  padding: 10px;
+}
+
+.title {
+  margin: 0;
+  color: var(--text-color);
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+}
+
+.list-item {
+  background-color: var(--header-background);
+  color: var(--text-color);
+  padding: 10px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.list-item:hover {
+  background-color: #4f545c;
+}

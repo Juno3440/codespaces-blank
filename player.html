@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DevLog Player</title>
+  <style>
+    /* Discord-inspired dark theme */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #2f3136; /* Discord's dark background */
+      color: #ffffff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      box-sizing: border-box;
+    }
+
+    .header {
+      width: 100%;
+      padding: 10px;
+      display: flex;
+      justify-content: flex-end;
+      background-color: #202225; /* Slightly darker for header */
+      box-sizing: border-box;
+    }
+
+    .exit-button {
+      background-color: transparent;
+      border: none;
+      color: #b9bbbe; /* Discord's subtle text color */
+      font-size: 16px;
+      cursor: pointer;
+      padding: 5px 10px;
+      transition: color 0.3s;
+      appearance: none; /* Standard property */
+      -webkit-appearance: none; /* Vendor prefix for WebKit */
+      -moz-appearance: none; /* Vendor prefix for Mozilla */
+    }
+
+    .exit-button:hover {
+      color: #ffffff;
+    }
+
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    video {
+      width: 100%;
+      max-width: 480px; /* Reduced size */
+      height: auto;
+      border-radius: 8px;
+      background-color: #000;
+    }
+
+    /* Custom video controls */
+    .controls {
+      display: flex;
+      align-items: center;
+      background-color: #2f3136;
+      padding: 10px;
+      width: 100%;
+      max-width: 480px; /* Match the video width */
+      box-sizing: border-box;
+      margin-top: 10px;
+      border-radius: 0 0 8px 8px;
+    }
+
+    .controls button {
+      background: none;
+      border: none;
+      color: #b9bbbe;
+      font-size: 18px; /* Reduced font size */
+      cursor: pointer;
+      margin-right: 10px; /* Adjusted spacing */
+      transition: color 0.3s;
+      appearance: none; /* Standard property */
+      -webkit-appearance: none; /* Vendor prefix */
+      -moz-appearance: none; /* Vendor prefix */
+    }
+
+    .controls button:hover {
+      color: #ffffff;
+    }
+
+    .controls .play-pause {
+      font-size: 20px; /* Slightly larger for visibility */
+    }
+
+    .controls .mute-button,
+    .controls .fullscreen-button {
+      font-size: 16px; /* Reduced font size */
+    }
+
+    .controls .seek-bar-container {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .controls input[type="range"] {
+      width: 100%;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background: #4f545c;
+      height: 4px; /* Thinner progress bar */
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 0 8px; /* Adjusted margin */
+      transition: background 0.3s;
+    }
+
+    .controls input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 10px; /* Smaller thumb */
+      height: 10px;
+      background: #7289da;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .controls input[type="range"]::-moz-range-thumb {
+      width: 10px;
+      height: 10px;
+      background: #7289da;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .controls input[type="range"]::-ms-thumb {
+      width: 10px;
+      height: 10px;
+      background: #7289da;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .controls input[type="range"]:hover {
+      background: #5a5e63;
+    }
+
+    .controls span.time {
+      font-size: 12px; /* Smaller time text */
+      color: #b9bbbe;
+      min-width: 40px;
+      text-align: center;
+    }
+
+    /* Tooltip for seek bar */
+    .tooltip {
+      position: absolute;
+      bottom: 25px; /* Adjusted position */
+      left: 0;
+      transform: translateX(-50%);
+      background-color: #4f545c;
+      color: #ffffff;
+      padding: 2px 4px; /* Smaller padding */
+      border-radius: 4px;
+      font-size: 10px; /* Smaller font */
+      display: none;
+      pointer-events: none;
+    }
+  </style>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    integrity="sha512-Fo3rlrZj/k7ujTTXRN59JcCBOPfAiwFAJ/dSGghxe0VzKGEhB4tZgtTa0FhKLh7MItcuu1X9ERmOjJjRC2jrFg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+</head>
+<body>
+  <div class="header">
+    <button class="exit-button" id="exitButton">Exit</button>
+  </div>
+  <div class="content">
+    <video id="videoPlayer">
+      Your browser does not support the video tag.
+    </video>
+    <div class="controls">
+      <button id="playPauseButton" class="play-pause" title="Play/Pause">
+        <i class="fas fa-play"></i>
+      </button>
+      <div class="seek-bar-container">
+        <span class="time" id="currentTime">0:00</span>
+        <input type="range" id="seekBar" value="0">
+        <span class="time" id="duration">0:00</span>
+        <span class="tooltip" id="tooltip">0:00</span>
+      </div>
+      <button id="muteButton" class="mute-button" title="Mute/Unmute">
+        <i class="fas fa-volume-up"></i>
+      </button>
+      <button id="fullscreenButton" class="fullscreen-button" title="Fullscreen">
+        <i class="fas fa-expand"></i>
+      </button>
+    </div>
+  </div>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const videoPath = urlParams.get('videoPath');
+    const videoElement = document.getElementById('videoPlayer');
+    const exitButton = document.getElementById('exitButton');
+    const playPauseButton = document.getElementById('playPauseButton');
+    const seekBar = document.getElementById('seekBar');
+    const currentTimeText = document.getElementById('currentTime');
+    const durationText = document.getElementById('duration');
+    const muteButton = document.getElementById('muteButton');
+    const fullscreenButton = document.getElementById('fullscreenButton');
+    const tooltip = document.getElementById('tooltip');
+
+    console.log('Video Path:', videoPath); // Debugging purpose
+
+    if (!videoPath) {
+      alert('No video path provided.');
+      throw new Error('No video path provided.');
+    }
+
+    // Load the video source
+    videoElement.src = `file://${videoPath}`;
+    videoElement.load();
+
+    // Handle video load errors
+    videoElement.onerror = function () {
+      console.error('Error loading video.');
+      alert('Failed to load the video. Please ensure the file exists and is a supported format.');
+    };
+
+    // Update duration when metadata is loaded
+    videoElement.addEventListener('loadedmetadata', () => {
+      if (isFinite(videoElement.duration)) {
+        durationText.textContent = formatTime(videoElement.duration);
+        seekBar.max = Math.floor(videoElement.duration);
+      } else {
+        durationText.textContent = '0:00';
+        seekBar.max = 0;
+        console.error('Video duration is not finite.');
+      }
+    });
+
+    // Play/Pause functionality
+    playPauseButton.addEventListener('click', () => {
+      if (videoElement.paused || videoElement.ended) {
+        videoElement.play();
+      } else {
+        videoElement.pause();
+      }
+    });
+
+    // Update play/pause icon based on video state
+    videoElement.addEventListener('play', () => {
+      playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
+    });
+
+    videoElement.addEventListener('pause', () => {
+      playPauseButton.innerHTML = '<i class="fas fa-play"></i>';
+    });
+
+    // Update seek bar and current time as the video plays
+    videoElement.addEventListener('timeupdate', () => {
+      if (isFinite(videoElement.duration)) {
+        seekBar.value = Math.floor(videoElement.currentTime);
+        currentTimeText.textContent = formatTime(videoElement.currentTime);
+      } else {
+        currentTimeText.textContent = '0:00';
+      }
+    });
+
+    // Seek video when seek bar changes
+    seekBar.addEventListener('input', () => {
+      videoElement.currentTime = seekBar.value;
+    });
+
+    // Mute/Unmute functionality
+    muteButton.addEventListener('click', () => {
+      videoElement.muted = !videoElement.muted;
+      updateMuteButton();
+    });
+
+    function updateMuteButton() {
+      if (videoElement.muted) {
+        muteButton.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        muteButton.title = 'Unmute';
+      } else {
+        muteButton.innerHTML = '<i class="fas fa-volume-up"></i>';
+        muteButton.title = 'Mute';
+      }
+    }
+
+    // Fullscreen functionality
+    fullscreenButton.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        videoElement.requestFullscreen().catch(err => {
+          alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    });
+
+    // Format time in mm:ss
+    function formatTime(time) {
+      const minutes = Math.floor(time / 60);
+      const seconds = Math.floor(time % 60).toString().padStart(2, '0');
+      return `${minutes}:${seconds}`;
+    }
+
+    // Close window on exit button click
+    exitButton.addEventListener('click', () => {
+      window.close();
+    });
+
+    // Tooltip functionality for seek bar
+    seekBar.addEventListener('mousemove', (e) => {
+      const rect = seekBar.getBoundingClientRect();
+      const pos = (e.clientX - rect.left) / rect.width;
+      const time = pos * videoElement.duration;
+      tooltip.textContent = formatTime(time);
+      tooltip.style.left = `${pos * 100}%`;
+      tooltip.style.display = 'block';
+    });
+
+    seekBar.addEventListener('mouseout', () => {
+      tooltip.style.display = 'none';
+    });
+
+    document.addEventListener('keydown', (e) => {
+      switch (e.key) {
+        case ' ':
+          playPauseButton.click();
+          break;
+        case 'm':
+        case 'M':
+          muteButton.click();
+          break;
+        case 'f':
+        case 'F':
+          fullscreenButton.click();
+          break;
+        default:
+          break;
+      }
+    });
+  </script>
+</body>
+</html>

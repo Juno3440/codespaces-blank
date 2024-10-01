@@ -1,0 +1,118 @@
+/* src/components/Timeline.module.css */
+
+.timelineContainer {
+  background-color: #2f3136;
+  padding: 20px;
+  border-radius: 8px;
+  color: #dcddde;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.zoomControls {
+  display: flex;
+  gap: 10px;
+}
+
+.zoomControls .button {
+  padding: 8px 16px;
+  background-color: #7289da; /* Blurple */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.zoomControls .button:hover {
+  background-color: #677bc4;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.actions .button {
+  padding: 8px 16px;
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.actions .button:hover {
+  background-color: var(--accent-color-hover);
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transform-origin: top left;
+}
+
+.node {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 10px;
+  background-color: #42454a;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.node:hover {
+  background-color: #4e545b;
+}
+
+.circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.label {
+  flex: 1;
+  font-size: 16px;
+  color: #fff;
+}
+
+.line {
+  position: absolute;
+  top: 50%;
+  left: 24px;
+  width: 2px;
+  height: calc(100% + 20px);
+  background-color: #72767d;
+}
+
+@media (max-width: 600px) {
+  .timelineContainer {
+    padding: 15px;
+  }
+
+  .zoomControls .button,
+  .actions .button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .label {
+    font-size: 14px;
+  }
+
+  .circle {
+    width: 10px;
+    height: 10px;
+    margin-right: 10px;
+  }
+}

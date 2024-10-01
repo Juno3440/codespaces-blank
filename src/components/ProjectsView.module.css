@@ -1,0 +1,55 @@
+.projectsView {
+    padding: 20px;
+    color: var(--text-color);
+  }
+  
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .projectList {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+  }
+  
+  .projectItem button {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .projectItem button:hover {
+    background-color: var(--accent-color-hover);
+  }
+  
+  .addProjectContainer {
+    display: flex;
+  }
+  
+  .addProjectContainer input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 4px 0 0 4px;
+    background-color: #2f3136;
+    color: #fff;
+  }
+  
+  .addProjectContainer button {
+    padding: 10px 20px;
+    background-color: #43b581;
+    color: #fff;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+  }
+  
+  .addProjectContainer button:hover {
+    background-color: #3da667;
+  }

@@ -1,0 +1,113 @@
+/* src/components/NodeDetails.module.css */
+
+.nodeDetails {
+  padding: 20px;
+  background-color: #2c2f33;
+  color: #ffffff;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.textarea {
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+.checklist {
+  list-style: none;
+  padding: 0;
+}
+
+.checklist li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.checklist li span {
+  margin-left: 8px;
+  flex-grow: 1;
+}
+
+.checklist li span.completed {
+  text-decoration: line-through;
+  color: #777777;
+}
+
+.removeButton {
+  background-color: #f04747;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.removeButton:hover {
+  background-color: #d84040;
+}
+
+.addTask {
+  display: flex;
+  margin-top: 10px;
+}
+
+.input {
+  flex-grow: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 4px 0 0 4px;
+}
+
+.addButton {
+  background-color: #43b581;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+.addButton:hover {
+  background-color: #3da667;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.saveButton {
+  background-color: #43b581;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.saveButton:hover {
+  background-color: #3da667;
+}
+
+.cancelButton {
+  background-color: #f04747;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancelButton:hover {
+  background-color: #d84040;
+}
