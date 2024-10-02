@@ -14,9 +14,13 @@
     margin-bottom: 20px;
   }
   
+  .projectItem {
+    margin-bottom: 10px; /* Add margin to create space between items */
+  }
+  
   .projectItem button {
     width: 100%;
-    padding: 10px;
+    padding: 15px; /* Increase padding for better touch targets */
     background-color: var(--accent-color);
     color: #fff;
     border: none;
