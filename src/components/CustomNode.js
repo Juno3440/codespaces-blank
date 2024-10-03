@@ -15,8 +15,8 @@
         />
         
         <div className={styles.nodeContent}>
-          <h3>{data.title}</h3>
-          <p>{data.description}</p>
+          <h3>{data.label}</h3> {/* Use data.label to display the title */}
+          <p>{data.textNotes}</p> {/* Display textNotes */}
           {data.checklist && (
             <ul className={styles.checklist}>
               {data.checklist.map((task, index) => (

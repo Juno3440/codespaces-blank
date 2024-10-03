@@ -3,6 +3,7 @@ import styles from './NodeDetails.module.css';
 import { json } from '@codemirror/lang-json';
 import { materialDark } from '@uiw/codemirror-theme-material';
 import { CodeMirror } from '@uiw/react-codemirror';
+import dagre from 'dagre';
 
 function NodeDetails({ projectId, nodeId, closeDetails, refreshNode }) {
   const [node, setNode] = useState(null);
@@ -77,6 +78,39 @@ function NodeDetails({ projectId, nodeId, closeDetails, refreshNode }) {
     updatedChecklist.splice(index, 1);
     setChecklist(updatedChecklist);
   };
+
+  useEffect(() => {
+    const dagreGraph = new dagre.graphlib.Graph();
+    dagreGraph.setDefaultEdgeLabel(() => ({}));
+
+    const nodeWidth = 172;
+    const nodeHeight = 36;
+    dagreGraph.setGraph({ rankdir: 'LR' });
+
+    nodes.forEach((node) => {
+      dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
+    });
+
+    edges.forEach((edge) => {
+      dagreGraph.setEdge(edge.source, edge.target);
+    });
+
+    dagre.layout(dagreGraph);
+
+    const updatedNodes = nodes.map((node) => {
+      const nodeWithPosition = dagreGraph.node(node.id);
+      return {
+        ...node,
+        position: {
+          x: nodeWithPosition.x - nodeWidth / 2,
+          y: nodeWithPosition.y - nodeHeight / 2,
+        },
+      };
+    });
+
+    setNodes(updatedNodes);
+    // Note: If edges also need to be updated based on the layout, handle accordingly.
+  }, [nodes.length, edges.length]); // Dependencies to trigger layout when nodes or edges change
 
   return (
     <div className={styles.nodeDetails}>

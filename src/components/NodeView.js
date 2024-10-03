@@ -11,8 +11,7 @@ import CustomNode from './CustomNode.js';
 import { json } from '@codemirror/lang-json';
 import { materialDark } from '@uiw/codemirror-theme-material';
 import CodeMirror from '@uiw/react-codemirror';
-
-const nodeTypes = { custom: CustomNode };
+import dagre from 'dagre';
 
 const NodeView = ({ project, onBack, onReturnToProjects }) => {
   const [jsonData, setJsonData] = useState('');
@@ -20,7 +19,7 @@ const NodeView = ({ project, onBack, onReturnToProjects }) => {
   const [edges, setEdges] = useState(project.edges || []);
 
   useEffect(() => {
-    // Optionally, you can perform other side effects here
+    // Placeholder for any side effects or subscriptions
   }, []);
 
   const onNodesChange = useCallback(
@@ -38,37 +37,52 @@ const NodeView = ({ project, onBack, onReturnToProjects }) => {
     []
   );
 
+  // Handler to toggle task completion
+  const handleToggleTask = (nodeId, taskIndex) => {
+    setNodes((nds) =>
+      nds.map((node) => {
+        if (node.id === nodeId) {
+          const updatedChecklist = node.data.checklist.map((task, index) => {
+            if (index === taskIndex) {
+              return { ...task, completed: !task.completed };
+            }
+            return task;
+          });
+          return {
+            ...node,
+            data: {
+              ...node.data,
+              checklist: updatedChecklist,
+            },
+          };
+        }
+        return node;
+      })
+    );
+  };
+
+  const nodeTypes = {
+    custom: (nodeProps) => <CustomNode {...nodeProps} onToggleTask={handleToggleTask} />,
+  };
+
   const parseJsonToNodesAndEdges = () => {
     try {
       const data = JSON.parse(jsonData);
       const newNodes = [];
       const newEdges = [];
 
-      // Convert JSON data to nodes and edges
-      let idCounter = 1;
-      const traverse = (obj, parentId = null) => {
-        const nodeId = `node-${idCounter++}`;
+      data.forEach((obj) => {
         newNodes.push({
-          id: nodeId,
+          id: obj.id,
           type: 'custom',
-          position: { x: Math.random() * 400, y: Math.random() * 400 },
-          data: { label: obj.name || 'Node', ...obj },
+          position: obj.position || { x: Math.random() * 1000, y: Math.random() * 1000 }, // Increased range
+          data: { 
+            label: obj.name || 'Node', 
+            textNotes: obj.textNotes, 
+            checklist: obj.checklist 
+          },
         });
-
-        if (parentId) {
-          newEdges.push({
-            id: `edge-${parentId}-${nodeId}`,
-            source: parentId,
-            target: nodeId,
-          });
-        }
-
-        if (obj.children && Array.isArray(obj.children)) {
-          obj.children.forEach((child) => traverse(child, nodeId));
-        }
-      };
-
-      traverse(data);
+      });
 
       setNodes(newNodes);
       setEdges(newEdges);
@@ -95,6 +109,40 @@ const NodeView = ({ project, onBack, onReturnToProjects }) => {
   const onLoad = (reactFlowInstance) => {
     reactFlowInstance.setViewport({ x: 0, y: 0, zoom: 1 });
   };
+
+  // Move DAGRE layout logic inside useEffect to prevent infinite re-renders
+  useEffect(() => {
+    const dagreGraph = new dagre.graphlib.Graph();
+    dagreGraph.setDefaultEdgeLabel(() => ({}));
+
+    const nodeWidth = 172;
+    const nodeHeight = 36;
+    dagreGraph.setGraph({ rankdir: 'LR' });
+
+    nodes.forEach((node) => {
+      dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
+    });
+
+    edges.forEach((edge) => {
+      dagreGraph.setEdge(edge.source, edge.target);
+    });
+
+    dagre.layout(dagreGraph);
+
+    const updatedNodes = nodes.map((node) => {
+      const nodeWithPosition = dagreGraph.node(node.id);
+      return {
+        ...node,
+        position: {
+          x: nodeWithPosition.x - nodeWidth / 2,
+          y: nodeWithPosition.y - nodeHeight / 2,
+        },
+      };
+    });
+
+    setNodes(updatedNodes);
+    // Note: If edges also need to be updated based on the layout, handle accordingly.
+  }, [nodes.length, edges.length]); // Dependencies to trigger layout when nodes or edges change
 
   return (
     <div className={styles.nodeView}>
@@ -130,7 +178,7 @@ const NodeView = ({ project, onBack, onReturnToProjects }) => {
           onConnect={onConnect}
           nodeTypes={nodeTypes}
           fitView
-          onLoad={onLoad} // ✅ Utilize onLoad instead
+          onLoad={onLoad}
         >
           <MiniMap />
           <Controls />
