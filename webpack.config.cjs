@@ -55,6 +55,13 @@ module.exports = {
     },
     compress: true,
     port: 8082,
+    client: {
+      webSocketURL: {
+        protocol: 'wss',
+        hostname: '0.0.0.0',
+        port: 8082,
+      },
+    },
     hot: true,
   },
   devtool: 'inline-source-map',
