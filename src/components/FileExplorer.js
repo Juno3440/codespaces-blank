@@ -21,7 +21,8 @@ function FileExplorer({ devlogs, refreshDevlogs, onSelectProject }) {
       name: newProjectName,
       nodes: [],
     };
-    await window.electron.addProject(newProject);
+    const addedProject = await window.electron.addProject(newProject);
+    setProjects((prev) => [...prev, addedProject]);
     setNewProjectName('');
     loadProjects();
   };

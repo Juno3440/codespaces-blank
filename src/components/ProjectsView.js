@@ -33,7 +33,7 @@ function ProjectsView({ onSelectProject }) {
 
     try {
       const savedProject = await window.electron.addProject(newProject);
-      setProjects((prev) => [...prev, savedProject]);
+      setProjects((prev) => [...prev, { ...newProject, id: savedProject.id }]);
       setNewProjectName('');
     } catch (error) {
       console.error('Failed to add project:', error);

@@ -4,7 +4,10 @@ contextBridge.exposeInMainWorld('electron', {
   // Project Methods
   getProjects: () => ipcRenderer.invoke('get-projects'),
   getProject: (projectId) => ipcRenderer.invoke('get-project', projectId),
-  addProject: (project) => ipcRenderer.invoke('add-project', project),
+  addProject: async (project) => {
+    const newProject = await ipcRenderer.invoke('add-project', project);
+    return newProject;
+  },
   updateProject: (updatedProject) => ipcRenderer.invoke('update-project', updatedProject),
   deleteProject: (projectId) => ipcRenderer.invoke('delete-project', projectId),
   // Node Methods
