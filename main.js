@@ -26,7 +26,7 @@ function createWindow() {
   });
 
   // **Update this URL to match Webpack Dev Server's port**
-  mainWindow.loadURL('https://localhost:8081'); // Update to new port
+  mainWindow.loadURL('https://localhost:8081'); // Use 'https' since the dev server is running with HTTPS
 
   mainWindow.on('closed', () => {
     mainWindow = null;
