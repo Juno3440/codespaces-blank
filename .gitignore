@@ -117,3 +117,7 @@ ehthumbs.db
 # Windows shortcuts
 *.lnk
 .aider*
+
+# SSL certificates
+ssl/server.key
+ssl/server.crt

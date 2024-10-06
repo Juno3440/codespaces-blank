@@ -1,5 +1,7 @@
 const path = require('path');
+const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { logMessage } = require('./logger.cjs');
 
 module.exports = {
   mode: 'development',
@@ -54,12 +56,19 @@ module.exports = {
       directory: path.join(__dirname, 'public'),
     },
     compress: true,
-    port: 8081, // Change to a different port
+    port: 8081,
+    server: {
+      type: 'https',
+      options: {
+        key: fs.readFileSync(path.resolve(__dirname, 'ssl', 'server.key')),
+        cert: fs.readFileSync(path.resolve(__dirname, 'ssl', 'server.crt')),
+      },
+    },
     client: {
       webSocketURL: {
         protocol: 'wss',
         hostname: 'localhost',
-        port: 8082,
+        port: 8081,
       },
     },
     hot: true,
