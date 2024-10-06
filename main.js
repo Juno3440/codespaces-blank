@@ -26,7 +26,7 @@ function createWindow() {
   });
 
   // **Update this URL to match Webpack Dev Server's port**
-  mainWindow.loadURL('http://localhost:8082'); // Match Webpack Dev Server port
+  mainWindow.loadURL('http://localhost:8083'); // Update to new port
 
   mainWindow.on('closed', () => {
     mainWindow = null;

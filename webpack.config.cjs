@@ -54,7 +54,7 @@ module.exports = {
       directory: path.join(__dirname, 'public'),
     },
     compress: true,
-    port: 8082,
+    port: 8083, // Change to a different port
     client: {
       webSocketURL: {
         protocol: 'wss',
