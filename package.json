@@ -7,7 +7,7 @@
   "scripts": {
     "start": "electron .",
     "build": "webpack --config webpack.config.cjs",
-    "dev": "concurrently \"npm run webpack-dev\" \"wait-on http://localhost:8081 && xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' npm run electron-dev\"",
+    "dev": "concurrently \"npm run webpack-dev\" \"wait-on http://localhost:8083 && xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' npm run electron-dev\"",
     "electron-dev": "cross-env ELECTRON_START_URL=http://localhost:8081 NODE_ENV=development electron .",
     "webpack-dev": "webpack serve --config webpack.config.cjs"
   },
