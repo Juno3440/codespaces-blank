@@ -16,7 +16,16 @@
   </head>
   <body>
     <div id="root"></div>
-    <script src="./dist/bundle.js"></script>
+    <script src="/bundle.js"></script>
+    <script>
+      console.log('JavaScript bundle loaded');
+    </script>
+    <script>
+      window.addEventListener('error', function(event) {
+        console.error('Error occurred:', event.error);
+        alert('JavaScript Error: ' + event.error.message);
+      });
+    </script>
     <script>
       console.log('Page loaded');
     </script>
