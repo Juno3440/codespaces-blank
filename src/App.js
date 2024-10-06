@@ -12,10 +12,10 @@ function App() {
   // Fetch selected project
   const handleSelectProject = async (projectId) => {
     console.log('Attempting to select project with ID:', projectId);
-    if (!window.electron || typeof window.electron.getProject !== 'function') {
+    if (!window.electron || typeof window.electron.getProjects !== 'function') {
       console.error('Electron API not available');
-      alert('Electron API not available');
-      return;
+      alert('Electron API not available in renderer process');
+      return <div>Error: Electron API not available</div>;
     }
     try {
       const project = await window.electron.getProject(projectId);
