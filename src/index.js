@@ -21,6 +21,5 @@ try {
   );
 } catch (error) {
   console.error('Error during rendering:', error);
-  logMessage(`Error during rendering: ${error.stack}`);
-  logMessage(`Error during rendering: ${error.message}`);
+  alert('An error occurred during rendering: ' + error.message);
 }
