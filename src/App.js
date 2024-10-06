@@ -12,6 +12,11 @@ function App() {
   // Fetch selected project
   const handleSelectProject = async (projectId) => {
     console.log('Attempting to select project with ID:', projectId);
+    if (!window.electron || typeof window.electron.getProject !== 'function') {
+      console.error('Electron API not available');
+      alert('Electron API not available');
+      return;
+    }
     try {
       const project = await window.electron.getProject(projectId);
       console.log('Selected project:', project);
@@ -43,6 +48,21 @@ function App() {
     setCurrentView('projects');
     setSelectedProject(null); // Optionally, clear the selected project
   };
+
+  console.log('Rendering App component with current view:', currentView);
+  if (selectedProject) {
+    console.log('Selected project:', selectedProject);
+  } else {
+    console.log('No project selected');
+  }
+  if (selectedProject) {
+    console.log('Selected project:', selectedProject);
+  } else {
+    console.log('No project selected');
+  }
+  if (selectedProject) {
+    console.log('Selected project:', selectedProject);
+  }
 
   return (
     <div className={styles.app}>
