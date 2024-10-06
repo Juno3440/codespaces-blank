@@ -10,6 +10,13 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
   },
+  resolve: {
+    extensions: ['.js', '.jsx', '.json'], // Ensure all necessary extensions are listed
+    fallback: {
+      "fs": false,
+      "path": require.resolve("path-browserify")
+    }
+  },
   module: {
     rules: [
       {
@@ -52,6 +59,13 @@ module.exports = {
     }),
   ],
   devServer: {
+    onListening: function (devServer) {
+      if (!devServer) {
+        throw new Error('webpack-dev-server is not defined');
+      }
+      const port = devServer.server.address().port;
+      logMessage(`Listening on port: ${port}`);
+    },
     static: {
       directory: path.join(__dirname, 'public'),
     },
