@@ -34,6 +34,11 @@ function createWindow() {
   mainWindow.webContents.openDevTools(); // Open DevTools to see console logs
 }
 
+app.on('certificate-error', (event, webContents, url, error, certificate, callback) => {
+  event.preventDefault();
+  callback(true);
+});
+
 app.whenReady().then(createWindow);
 
 // Handle all IPC events
