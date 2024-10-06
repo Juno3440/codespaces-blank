@@ -8,7 +8,9 @@ function ProjectsView({ onSelectProject }) {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
+        console.log('Fetching projects...');
         const fetchedProjects = await window.electron.getProjects();
+        console.log('Fetched projects:', fetchedProjects);
         setProjects(fetchedProjects);
       } catch (error) {
         console.error('Failed to fetch projects:', error);

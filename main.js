@@ -40,7 +40,9 @@ app.whenReady().then(createWindow);
 // Get all projects
 ipcMain.handle('get-projects', async () => {
   try {
+    console.log('Fetching projects from store...');
     const projects = store.get('projects') || [];
+    console.log('Projects fetched:', projects);
     console.log('Returning projects:', projects); // Log projects being returned
     return projects;
   } catch (error) {
