@@ -31,6 +31,7 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
+  mainWindow.webContents.openDevTools(); // Open DevTools to see console logs
 }
 
 app.whenReady().then(createWindow);
